@@ -33,13 +33,19 @@ merged_covid_data = merge(avg_incomes_transposed, covid_data, by = "norm_neighbo
 library(cowplot)
 theme_set(theme_cowplot())
 
-merged_covid_data %>% ggplot(aes(x = avg_income, y = `Rate per 100,000 people`)) + 
+avg_income_graph = merged_covid_data %>% ggplot(aes(x = avg_income, y = `Rate per 100,000 people`)) + 
   geom_point() + scale_x_log10(name="Average after-tax income of households in 2015 ($)", labels = scales::comma) + 
   ylab("Covid rate per 100,000 people") + geom_smooth(method = "lm", se = F)
 
-merged_covid_data %>% ggplot(aes(x = low_income_pct, y = `Rate per 100,000 people`)) + 
+
+low_income_pct_graph = merged_covid_data %>% ggplot(aes(x = low_income_pct, y = `Rate per 100,000 people`)) + 
   geom_point() + scale_x_log10(name="Prevalence of low income based on the Low-income cut-offs,\n after tax (LICO-AT) (%)", labels = scales::comma) + 
   ylab("Covid rate per 100,000 people") + geom_smooth(method = "lm", se = F)
+
+ggsave(avg_income_graph, filename = "figs/avg_income_graph.png")
+ggsave(low_income_pct_graph, filename = "figs/low_income_pct_graph.png")
+
+
 
 
 	
